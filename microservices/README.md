@@ -1,0 +1,127 @@
+## Passo a passo para execução
+
+### 1. Inicializar o Eureka Server
+
+Navegue até o diretório `eureka-server` e execute o seguinte comando:
+
+```bash
+./mvnw spring-boot:run
+```
+
+O Eureka Server será iniciado em [http://localhost:8761](http://localhost:8761).
+
+### 2. Inicializar os microserviços
+
+Inicie cada um dos microserviços da seguinte maneira:
+
+- **User Service**:
+    - Navegue até o diretório `user-service`:
+      ```bash
+      ./mvnw spring-boot:run
+      ```
+
+- **Task Service**:
+    - Navegue até o diretório `task-service`:
+      ```bash
+      ./mvnw spring-boot:run
+      ```
+
+- **Notification Service**:
+    - Navegue até o diretório `notification-service`:
+      ```bash
+      ./mvnw spring-boot:run
+      ```
+
+### 3. Testar os Endpoints
+
+#### **User Service**
+
+- **Criar um usuário**:
+    ```http
+    POST http://localhost:8081/users
+    Content-Type: application/json
+
+    {
+      "id": 1,
+      "name": "John Doe"
+    }
+    ```
+
+- **Obter todas as tarefas de um usuário**:
+    ```http
+    GET http://localhost:8081/users/1/tasks
+    ```
+
+- **Obter todas as notificações de um usuário**:
+    ```http
+    GET http://localhost:8081/users/1/notifications
+    ```
+
+#### **Task Service**
+
+- **Criar uma tarefa para um usuário**:
+    ```http
+    POST http://localhost:8082/tasks
+    Content-Type: application/json
+
+    {
+      "id": 1,
+      "description": "Finish project",
+      "userId": 1
+    }
+    ```
+
+- **Obter todas as tarefas**:
+    ```http
+    GET http://localhost:8082/tasks
+    ```
+
+#### **Notification Service**
+
+- **Criar uma notificação para um usuário**:
+    ```http
+    POST http://localhost:8083/notifications
+    Content-Type: application/json
+
+    {
+      "id": 1,
+      "message": "Task completed",
+      "userId": 1
+    }
+    ```
+
+- **Obter todas as notificações**:
+    ```http
+    GET http://localhost:8083/notifications
+    ```
+
+---
+
+O projeto agora está completo, com todos os endpoints para criar, atualizar, listar e deletar usuários, tarefas e notificações. Todos os serviços estão integrados e podem ser testados conforme indicado acima.
+
+## Instalação das Dependências
+
+Antes de iniciar o servidor Eureka e os microserviços, é necessário garantir que todas as dependências do Maven sejam baixadas e instaladas. Isso pode ser feito com o comando:
+
+```bash
+./mvnw clean install
+```
+
+Esse comando deve ser executado em cada um dos diretórios dos microserviços e no servidor Eureka.
+
+## Verificação do Eureka Dashboard
+
+Uma vez que o Eureka Server estiver em execução, você pode acessar o **Eureka Dashboard** para verificar se os microserviços estão registrados corretamente. Acesse:
+
+```http
+http://localhost:8761
+```
+
+## Configuração de Portas
+
+Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sistema, pois são usadas pelos serviços.
+
+## Erros Comuns
+
+- **Dependências do Maven não encontradas**: Verifique o arquivo `pom.xml` e certifique-se de que todas as dependências estão corretamente configuradas e instaladas.
+- **Problemas de conexão entre serviços**: Certifique-se de que o Eureka Server esteja em execução antes de iniciar os microserviços.
