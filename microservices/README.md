@@ -125,3 +125,27 @@ Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sis
 
 - **Dependências do Maven não encontradas**: Verifique o arquivo `pom.xml` e certifique-se de que todas as dependências estão corretamente configuradas e instaladas.
 - **Problemas de conexão entre serviços**: Certifique-se de que o Eureka Server esteja em execução antes de iniciar os microserviços.
+
+## Construção e Execução
+
+- Navegar até cada diretório de projeto e executar:
+  ```bash
+  mvn clean package
+
+- Construa as imagens Docker:
+  ```bash
+  docker build -t eureka-server .
+  docker build -t user-service .
+  docker build -t task-service .
+  docker build -t notification-service .
+
+- Execute os serviços em um contêiner Docker:
+  ```bash
+  docker run -p 8761:8761 eureka-server
+  docker run -p 8081:8081 user-service
+  docker run -p 8082:8082 task-service
+  docker run -p 8083:8083 notification-service
+
+- Executar o Docker Compose :
+  ```bash
+  docker-compose up --build
