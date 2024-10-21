@@ -7,3 +7,9 @@ eureka:
         fetchRegistry: false
     instance:
         hostname: localhost
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health

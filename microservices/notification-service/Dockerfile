@@ -11,4 +11,4 @@ ADD target/*.jar app.jar
 EXPOSE 8083
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "notification-server.jar"]

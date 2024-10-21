@@ -1,5 +1,6 @@
 package com.example.user_service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,7 +11,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private List<User> users = new ArrayList<>();
-    private RestTemplate restTemplate = new RestTemplate(); // Para chamadas entre serviços
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping("/")
     public List<User> getUsers() {
