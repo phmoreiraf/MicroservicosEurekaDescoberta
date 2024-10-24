@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:21-jdk
+FROM openjdk:17-jdk
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 ADD target/*.jar user-service.jar
 
-# Make port 8081 available to the world outside this container
+# Make port 8083 available to the world outside this container
 EXPOSE 8081
 
 # Run the jar file
