@@ -176,4 +176,8 @@ Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sis
   
   Hystrix Dashboard: http://localhost:7979/hystrix
 
-
+- Monitoramento com Hystrix Dashboard
+    ```bash
+    http://localhost:7979/hystrix
+  
+  Ex: http://localhost:8081/actuator/hystrix.stream
