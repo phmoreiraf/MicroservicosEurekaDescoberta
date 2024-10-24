@@ -1,6 +1,12 @@
 server:
   port: 8080  # Porta onde o API Gateway vai rodar
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
 spring:
   application:
     name: api-gateway
@@ -20,11 +26,6 @@ spring:
           uri: lb://NOTIFICATION-SERVICE
           predicates:
             - Path=/notifications/**
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka  # URL do Eureka Server
 
 management:
   endpoints:
