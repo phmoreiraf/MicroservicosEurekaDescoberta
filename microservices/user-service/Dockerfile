@@ -5,10 +5,10 @@ FROM openjdk:17-jdk
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-ADD target/*.jar user-service.jar
+ADD target/*.jar app.jar
 
 # Make port 8083 available to the world outside this container
 EXPOSE 8081
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "user-service.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
