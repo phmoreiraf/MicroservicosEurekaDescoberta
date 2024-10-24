@@ -135,6 +135,7 @@ Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sis
 - Construa as imagens Docker:
   ```bash
   docker build -t eureka-server .
+  docker build -t api-gateway .
   docker build -t user-service .
   docker build -t task-service .
   docker build -t notification-service .
@@ -142,6 +143,7 @@ Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sis
 - Execute os serviços em um contêiner Docker:
   ```bash
   docker run -p 8761:8761 eureka-server
+  docker run -p 8080:8080 api-gateway
   docker run -p 8081:8081 user-service
   docker run -p 8082:8082 task-service
   docker run -p 8083:8083 notification-service
@@ -149,3 +151,29 @@ Certifique-se de que as portas 8081, 8082, 8083, e 8761 estão livres em seu sis
 - Executar o Docker Compose :
   ```bash
   docker-compose up --build
+  
+- Gerar Certificados TLS :
+  ```bash
+  openssl req -newkey rsa:2048 -nodes -keyout keystore.key -x509 -days 365 -out keystore.crt
+
+  Formato p12: openssl pkcs12 -export -in keystore.crt -inkey keystore.key -out keystore.p12 -name alias
+
+- Build dos Microsserviços
+    ```bash
+    mvn clean package -DskipTests
+
+- Verificar o Status dos Serviços
+    ```bash
+  Eureka Server: http://localhost:8761
+  
+  Config Server: http://localhost:8888/actuator/health
+  
+  User Service: http://localhost:8081/actuator/health
+  
+  Task Service: http://localhost:8082/actuator/health
+  
+  Notification Service: http://localhost:8083/actuator/health
+  
+  Hystrix Dashboard: http://localhost:7979/hystrix
+
+

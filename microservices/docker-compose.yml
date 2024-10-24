@@ -12,6 +12,12 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    environment:
+      - EUREKA_SERVER_TLS_ENABLED=true
+      - EUREKA_SERVER_KEYSTORE_PASSWORD=changeit
+      - EUREKA_SERVER_KEYSTORE_PATH=/config/keystore.p12
+    volumes:
+      - ./certs/eureka:/config
 
   config-server:
     image: springcloud/configserver
@@ -22,6 +28,7 @@ services:
       SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:/config
     volumes:
       - ./config-repo:/config
+      - ./certs/config:/config/certs
     networks:
       - microservices-network
     depends_on:
@@ -44,13 +51,20 @@ services:
         condition: service_healthy
     networks:
       - microservices-network
+    environment:
+      - JWT_SECRET=mysecretkey
+      - USER_SERVICE_TLS_ENABLED=true
+      - USER_SERVICE_KEYSTORE_PASSWORD=changeit
+      - USER_SERVICE_KEYSTORE_PATH=/config/keystore.p12
+    volumes:
+      - ./certs/user:/config
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
     deploy:
-      replicas: 3  # Escalando para 3 instâncias
+      replicas: 3
 
   task-service:
     build: ./task-service
@@ -63,6 +77,13 @@ services:
         condition: service_healthy
     networks:
       - microservices-network
+    environment:
+      - JWT_SECRET=mysecretkey
+      - TASK_SERVICE_TLS_ENABLED=true
+      - TASK_SERVICE_KEYSTORE_PASSWORD=changeit
+      - TASK_SERVICE_KEYSTORE_PATH=/config/keystore.p12
+    volumes:
+      - ./certs/task:/config
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
       interval: 30s
@@ -80,6 +101,13 @@ services:
         condition: service_healthy
     networks:
       - microservices-network
+    environment:
+      - JWT_SECRET=mysecretkey
+      - NOTIFICATION_SERVICE_TLS_ENABLED=true
+      - NOTIFICATION_SERVICE_KEYSTORE_PASSWORD=changeit
+      - NOTIFICATION_SERVICE_KEYSTORE_PATH=/config/keystore.p12
+    volumes:
+      - ./certs/notification:/config
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
       interval: 30s
